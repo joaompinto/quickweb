@@ -1,0 +1,22 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  // Configure glob patterns for excluding files and folders.
+  "files.exclude": {
+    "**/.tox": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*.egg-info": true,
+    "**/*.pyc": true,
+    ".vscode/": true
+    },
+    "editor.rulers": [
+      100
+    ],
+    "python.linting.flake8Enabled": true,
+    "cSpell.words": [
+      "noqa"
+    ]
+  }

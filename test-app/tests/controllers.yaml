@@ -1,0 +1,36 @@
+%YAML 1.1
+# Still in draft
+# When not specified, the method for input is assumed to be GET
+# The following validation fields are supported:
+#   status - the http status
+#   body -  check body content
+#   headers -  a list of headers
+
+---
+title: Test controller (root)
+input:
+  url: /Test
+validate:
+  status: 200
+  body: Python
+---
+title: Test Controller with named arguments
+input:
+  url: /Test?lower=test
+validate:
+  status: 200
+  body: PythonTEST
+---
+title: Test Controller with positional argument
+input:
+  url: /Test/Color
+validate:
+  status: 200
+  body: Python with Color
+---
+title: Test Controller with both positional and named argument
+input:
+  url: /Test/Color?lower=test
+validate:
+  status: 200
+  body: PythonTEST with Color

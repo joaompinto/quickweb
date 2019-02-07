@@ -1,0 +1,56 @@
+%YAML 1.1
+# Still in draft
+# When not specified, the method for input is assumed to be GET
+# The following validation fields are supported:
+#   status - the http status
+#   body -  check body content
+#   headers -  a list of headers
+
+---
+title: Security check - app configuration must not be available
+input:
+  url: /APPLICATION.yaml
+validate:
+  status: 404
+---
+title: Security check - directory traversal must not be allowed
+input:
+  url: /../APPLICATION.yaml
+validate:
+  status: 404
+---
+title: Security check - static content directly from the webroot must not be allowed
+input:
+  url: /file.html
+validate:
+  status: 404
+---
+title: Security check - directory index must not be allowed
+input:
+  url: /css
+validate:
+  status: 404
+---
+title: Regular non existing file validation
+input:
+  url: /css/fileX.css
+validate:
+  status: 404
+---
+title: CSS file retrieval with content-type and body validation
+input:
+  url: /css/test.css
+validate:
+  headers:
+    - content-type: text/css
+  status: 200
+  body: h1
+---
+title: HTML file retrieval with content-type and body validation
+input:
+  url: /html/test.html
+validate:
+  headers:
+    - content-type: text/html
+  status: 200
+  body: Hello

@@ -1,0 +1,93 @@
+%YAML 1.1
+# Still in draft
+# When not specified, the method for input is assumed to be GET
+# The following validation fields are supported:
+#   status - the http status
+#   body -  check body content
+#   headers -  a list of headers
+---
+title: Index file testing
+input:
+  url: /
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: Hello
+---
+title: Implicit _base.html inheritance
+input:
+  url: /
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: DOCTYPE html
+---
+title: Index file testing (leaf)
+input:
+  url: /level2
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: Hello2
+---
+title: Security check - part files MUST not be rendered
+input:
+  url: /_part
+validate:
+  status: 404
+---
+title: Template page with expression
+input:
+  url: /TemplateExp
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: result is
+---
+title: Template page with variables from yaml
+input:
+  url: /TemplateVars
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: get Needle
+---
+title: Template page with variables from _base yaml
+input:
+  url: /TemplateVars
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: get base Haystack
+---
+title: Template page (leaf)
+input:
+  url: /Help/Me
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: about 4
+---
+title: Security check - 404 for indexless template directories (leaf)
+input:
+  url: /Help/
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 404
+---
+title: Markdown rendering
+input:
+  url: /Mark
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: <em>bold</em>

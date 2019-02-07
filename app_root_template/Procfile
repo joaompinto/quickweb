@@ -1,0 +1,7 @@
+# This file sets the command that should be used to run your application
+#
+# For mode details check:
+# 	http://docs.cloudfoundry.org/buildpacks/prod-server.html#procfile
+#	https://devcenter.heroku.com/articles/procfile
+
+web: quickweb run .
