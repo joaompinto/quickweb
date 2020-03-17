@@ -5,9 +5,8 @@ Usage:
     http_unit_test <server_base_url> <test_file>
 
 Options:
-  -h --help     Show this screen.
+    -h --help     Show this screen.
 """
-from __future__ import print_function
 import sys
 import yaml
 from docopt import docopt

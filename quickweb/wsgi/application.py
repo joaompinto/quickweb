@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
 from os.path import join, basename
 from quickweb import controller, template
 from glob import glob

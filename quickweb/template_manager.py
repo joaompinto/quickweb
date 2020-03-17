@@ -1,11 +1,6 @@
 # !/usr/bin/python
-from __future__ import print_function
 
-try:
-    from html.parser import HTMLParser
-except ImportError:
-    from HTMLParser import HTMLParser   # Python2 compatibility
-
+from html.parser import HTMLParser
 from os.path import basename, join, exists, dirname
 from quickweb._tempfile import TemporaryDirectory
 import os

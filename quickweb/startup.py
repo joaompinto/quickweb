@@ -2,8 +2,6 @@
 """
     This module provides the web engine core startup/application configuration logic
 """
-from __future__ import print_function
-
 import os
 import sys
 from os.path import abspath, join, dirname

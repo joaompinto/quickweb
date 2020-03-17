@@ -2,7 +2,6 @@ CherryPy
 Jinja2
 docopt>=0.6.2
 Requests
-future
 pyyaml
 colorama
 termcolor

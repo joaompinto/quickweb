@@ -1,6 +1,5 @@
 # http://stackoverflow.com/a/19299884
 
-from __future__ import print_function
 
 import warnings as _warnings
 import os as _os

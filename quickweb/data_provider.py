@@ -4,8 +4,6 @@
     It can be used from both templates and controllers to
     for data fetching.
 """
-from __future__ import print_function
-from future.moves.urllib.parse import urlparse
 import os
 import sys
 import json
