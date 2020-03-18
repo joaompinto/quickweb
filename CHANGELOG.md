@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.2.0
+
+* added lang support
+
 ## v1.1.0
 
 * added support for dbsupport.py within app dir

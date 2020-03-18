@@ -73,8 +73,8 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
     cherrypy.engine.subscribe("stop", lambda: os.chdir(startup_cwd))
     if dbsupport:
         print("** Setting up datbase")
-        cherrypy.engine.subscribe('start', dbsupport.setup_database)
-        cherrypy.engine.subscribe('stop', dbsupport.cleanup_database)
+        cherrypy.engine.subscribe("start", dbsupport.setup_database)
+        cherrypy.engine.subscribe("stop", dbsupport.cleanup_database)
 
     cherrypy.engine.start()
     cherrypy.engine.block()

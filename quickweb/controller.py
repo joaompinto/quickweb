@@ -183,12 +183,39 @@ def current_path():
 
 
 def helpers():
-    """ Returns a dict with objects that should be available for templates """
+    """ Returns a dict with objects that should be available to templates """
     helpers_dict = {
         "navigation_elements": navigation_elements,
         "current_path": current_path,
+        "language": get_lang,
+        "domain": get_domain,
+        "scheme": get_scheme,
     }
     return helpers_dict
+
+
+def get_host():
+    for key, value in cherrypy.request.header_list:
+        if key.upper() == "HOST":
+            return value.lower()
+
+
+def get_lang():
+    host = get_host()
+    if host:
+        return host.split(".")[0]
+
+
+def get_domain():
+    host = get_host()
+
+    if host:
+        domain = '.'.join(host.split(".")[1:])
+        return domain
+
+
+def get_scheme():
+    return cherrypy.request.scheme
 
 
 def set_navigation_info(*args, **kwargs):
