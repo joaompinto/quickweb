@@ -3,10 +3,12 @@
 import os
 import sys
 from time import time
+from os.path import join, exists
 import cherrypy
 import quickweb
 from quickweb import startup
 from quickweb.colorhelper import info
+import importlib
 
 
 def run(app_directory, listener_address=None, no_logs=False, running_describe=False):
@@ -39,9 +41,18 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
     # Identify the application root directory
     app_root_directory = app_directory or os.getcwd()
 
+    dbsupport_fname = join(app_root_directory, "dbsupport.py")
+    dbsupport = None
+    if exists(dbsupport_fname):
+        spec = importlib.util.spec_from_file_location("dbsupport", dbsupport_fname)
+        dbsupport = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(dbsupport)
+
     startup.setup_app("app_name", app_root_directory, no_logs)
+
     if running_describe:
         return
+
     colored_elapsed_time = info("%0.2fms" % ((time() - start_t) * 1000.0))
     print("=" * 10 + " Startup completed in " + colored_elapsed_time)
 
@@ -60,6 +71,10 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
     if hasattr(cherrypy.engine, "signals"):
         cherrypy.engine.signals.subscribe()
     cherrypy.engine.subscribe("stop", lambda: os.chdir(startup_cwd))
+    if dbsupport:
+        print("** Setting up datbase")
+        cherrypy.engine.subscribe('start', dbsupport.setup_database)
+        cherrypy.engine.subscribe('stop', dbsupport.cleanup_database)
 
     cherrypy.engine.start()
     cherrypy.engine.block()
