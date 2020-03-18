@@ -12,6 +12,7 @@ from quickweb.startup import web_app_config
 
 class Feature(object):
     """ content_directory """
+
     _content_directory = ""
     _static_directories = []
 
@@ -34,14 +35,14 @@ class Feature(object):
 
         for root, dirs, files in os.walk(self._content_directory):
             for dir_name in dirs:
-                relative_name = join(root, dir_name)[content_dir_len + 1:]
-                static_file_flag = join(root, dir_name, '.static')
+                relative_name = join(root, dir_name)[content_dir_len + 1 :]
+                static_file_flag = join(root, dir_name, ".static")
                 if exists(static_file_flag):
                     self.setup_static_dir(relative_name)
                 else:
                     invoke("content_dir_found", self._content_directory, relative_name)
             for file_name in files:
-                relative_name = join(root, file_name)[content_dir_len + 1:]
+                relative_name = join(root, file_name)[content_dir_len + 1 :]
                 if not self.is_on_static_path(relative_name):
                     invoke("content_file_found", self._content_directory, relative_name)
 
@@ -57,9 +58,9 @@ class Feature(object):
         # gerenate a static directory section for the cherrypy static dir tool
         static_conf = {
             url: {
-                'tools.staticdir.dir': abspath(join(content_root, content_name)),
-                'tools.staticdir.on': True,
-                'tools.staticdir.content_types': {'svg': 'image/svg+xml'}
+                "tools.staticdir.dir": abspath(join(content_root, content_name)),
+                "tools.staticdir.on": True,
+                "tools.staticdir.content_types": {"svg": "image/svg+xml"},
             }
         }
         web_app_config.update(static_conf)

@@ -24,7 +24,7 @@ class Feature(object):
         if not fnmatch(basename(content_name), on_file_name):
             return
 
-        url = '/' + content_name
+        url = "/" + content_name
 
         noext_name, ext = splitext(url)
         url = noext_name

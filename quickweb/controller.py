@@ -47,9 +47,9 @@ def attach(controller_path_name, controller_obj):
     """ Binds a controller object to an application URL """
 
     # Map OS path separator to URL separators (Needed on Windows)
-    controller_path_name = controller_path_name.replace(os.sep, '/')
+    controller_path_name = controller_path_name.replace(os.sep, "/")
 
-    controller_path_name = controller_path_name.strip('/')
+    controller_path_name = controller_path_name.strip("/")
     path_parts = controller_path_name.split("/")
 
     #  print('attach', controller_path_name, controller_obj, len(this.app_root.__dict__))
@@ -66,7 +66,7 @@ def attach(controller_path_name, controller_obj):
         path_root = new_path_root
 
     # If we get a new root index, migrate current root resources to the new one
-    if controller_path_name == '':
+    if controller_path_name == "":
         set_app_root(controller_obj)
     else:
         setattr(path_root, resource_name, controller_obj)
@@ -87,7 +87,7 @@ def get_cookie(name, default_value=None):
         return s.replace("\\\\", "\\")
 
     if name in cherrypy.request.cookie:
-        return unescape(cherrypy.request.cookie[name].value).decode('unicode-escape')
+        return unescape(cherrypy.request.cookie[name].value).decode("unicode-escape")
     else:
         return default_value
 
@@ -103,17 +103,17 @@ def set_session_value(name, value):
     cherrypy.session[name] = value
 
 
-def set_cookie(name, value, path='/', max_age=3600, version=1):
+def set_cookie(name, value, path="/", max_age=3600, version=1):
     cookie = cherrypy.response.cookie
-    cookie[name] = value.encode('unicode-escape')
-    cookie[name]['path'] = path
-    cookie[name]['max-age'] = max_age
-    cookie[name]['version'] = version
+    cookie[name] = value.encode("unicode-escape")
+    cookie[name]["path"] = path
+    cookie[name]["max-age"] = max_age
+    cookie[name]["version"] = version
 
 
 def delete_cookie(name):
-    cherrypy.response.cookie[name] = 'deleting'
-    cherrypy.response.cookie[name]['expires'] = 0
+    cherrypy.response.cookie[name] = "deleting"
+    cherrypy.response.cookie[name]["expires"] = 0
 
 
 def set_response(name, value):
@@ -139,7 +139,7 @@ def controller_path():
     """
     @return: the current request path
     """
-    return cherrypy.request.path_info.split('/')
+    return cherrypy.request.path_info.split("/")
 
 
 def get_config():
@@ -152,21 +152,25 @@ def navigation_elements(start_path=None, using_placement=True):
     for each renderable ellement found on path
     """
     app_node = get_app_root()
-    _navigation = app_node.__dict__.get('_navigation')
+    _navigation = app_node.__dict__.get("_navigation")
     if _navigation:
         return _navigation
 
     nav_list = []
     for leaf_name, leaf_obj in get_app_root().__dict__.iteritems():
-        contains_index = hasattr(leaf_obj, 'index')
-        if contains_index and leaf_name[0] != '_':
+        contains_index = hasattr(leaf_obj, "index")
+        if contains_index and leaf_name[0] != "_":
             nav_name = this._navigation.get(leaf_name, leaf_name)
-            nav_list.append({'name': nav_name, 'link': leaf_name})
+            nav_list.append({"name": nav_name, "link": leaf_name})
 
     if using_placement:
         for constraint_source, constraint_target in this._navigation_place_after:
-            source_pos = [i for i, x in enumerate(nav_list) if x['link'] == constraint_source][0]
-            target_pos = [i for i, x in enumerate(nav_list) if x['link'] == constraint_target][0]
+            source_pos = [
+                i for i, x in enumerate(nav_list) if x["link"] == constraint_source
+            ][0]
+            target_pos = [
+                i for i, x in enumerate(nav_list) if x["link"] == constraint_target
+            ][0]
             if source_pos < target_pos:
                 swapping_element = nav_list.pop(source_pos)
                 nav_list.insert(target_pos, swapping_element)
@@ -181,8 +185,8 @@ def current_path():
 def helpers():
     """ Returns a dict with objects that should be available for templates """
     helpers_dict = {
-        'navigation_elements': navigation_elements,
-        'current_path': current_path
+        "navigation_elements": navigation_elements,
+        "current_path": current_path,
     }
     return helpers_dict
 
@@ -191,30 +195,33 @@ def set_navigation_info(*args, **kwargs):
     #  cherrypy.(str(args))
     #  cherrypy.log(str(kwargs))
 
-    cherrypy.log('Setting navigation info %s %s' % (str(args), str(kwargs)))
+    cherrypy.log("Setting navigation info %s %s" % (str(args), str(kwargs)))
 
-    valid_kwargs = ['name', 'place_after']
+    valid_kwargs = ["name", "place_after"]
     for k in kwargs:
         if k not in valid_kwargs:
-            raise Exception('Unsupported parameter %s' % k)
+            raise Exception("Unsupported parameter %s" % k)
 
-    if 'name' in kwargs:
-        this._navigation[current_path()] = kwargs['name']
+    if "name" in kwargs:
+        this._navigation[current_path()] = kwargs["name"]
 
     # While the code provides support for multiple types, for simplicity only 'place_after'
     # is implemented.
-    constraint_target = kwargs.get('place_after')
-    if constraint_target[0] != '/':
-        constraint_target = '/' + constraint_target
+    constraint_target = kwargs.get("place_after")
+    if constraint_target[0] != "/":
+        constraint_target = "/" + constraint_target
 
     if not constraint_target:
         return
 
-    was_found = [x for x in navigation_elements(using_placement=False)
-                 if x['link'] == constraint_target]
+    was_found = [
+        x
+        for x in navigation_elements(using_placement=False)
+        if x["link"] == constraint_target
+    ]
 
     if not was_found:
-        cherrypy.log("Unknown target "+constraint_target)
+        cherrypy.log("Unknown target " + constraint_target)
         return
 
     was_found = [x for x in this._navigation_place_after if x[2] == constraint_target]
@@ -222,6 +229,4 @@ def set_navigation_info(*args, **kwargs):
     if was_found:
         raise Exception("Duplicated place_after for target '%s'" % constraint_target)
 
-    this._navigation_place_after(
-        (current_path(), constraint_target)
-        )
+    this._navigation_place_after((current_path(), constraint_target))

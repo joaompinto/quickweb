@@ -16,6 +16,7 @@ from quickweb.modules import fnmatch_list
 
 class Feature(object):
     """ templates """
+
     _template_engine = None
 
     def setup(self):
@@ -38,12 +39,12 @@ class Feature(object):
         if file_exclude and fnmatch_list(basename(content_name), file_exclude):
             return
 
-        url = '/' + content_name
+        url = "/" + content_name
         noext_name, ext = splitext(url)
         url = noext_name
 
         # Map 'index' files to dirname/
-        if basename(url) == 'index':
+        if basename(url) == "index":
             url = dirname(url)
 
         template_controller = TemplateController(content_name, self._template_engine)
@@ -77,12 +78,11 @@ class TemplateEngine:
         self._template_base_path = template_base_path
         self._loader = QWTemplateLoader(template_base_path)
         self._engine = Environment(
-            autoescape=select_autoescape(['html', 'xml']),
-            loader=self._loader
-            )
+            autoescape=select_autoescape(["html", "xml"]), loader=self._loader
+        )
         self._engine.globals.update(controller.helpers())
-        self._engine.filters['paragraphs'] = paragraphs
-        self._engine.filters['markdown'] = lambda x: Markup(markdown(x))
+        self._engine.filters["paragraphs"] = paragraphs
+        self._engine.filters["markdown"] = lambda x: Markup(markdown(x))
 
     def render(self, name):
 
@@ -94,7 +94,7 @@ class TemplateEngine:
         yaml_variables = {}
         for template_name in referenced_templates:
             noext_name, ext = splitext(template_name)
-            yaml_data_filename = noext_name + '.yaml'
+            yaml_data_filename = noext_name + ".yaml"
             try:
                 yaml_renderer = self._engine.get_template(yaml_data_filename)
             except TemplateNotFound:
@@ -116,7 +116,8 @@ class QWTemplateLoader(BaseLoader):
         during rendering, because the .yaml content bind to every included template must be
         provided.
     """
-    _included_templates = {}    # List of templates included by a specific template
+
+    _included_templates = {}  # List of templates included by a specific template
 
     def __init__(self, path):
         self.path = path
@@ -127,24 +128,29 @@ class QWTemplateLoader(BaseLoader):
         if not exists(path):
             raise TemplateNotFound(template)
         mtime = getmtime(path)
-        with open(path, 'rb') as f:
-            source = f.read().decode('utf-8')
-        if template_ext == '.md':
-            source = markdown(source, extensions=['markdown.extensions.attr_list'])
+        with open(path, "rb") as f:
+            source = f.read().decode("utf-8")
+        if template_ext == ".md":
+            source = markdown(source, extensions=["markdown.extensions.attr_list"])
         # If the .html does not extend other template, check if there is _base.html .
         # We will extend the template file from _base.html if present.
-        if template_ext in ['.html', '.md'] and not re.match(r'^\s*{% extends "', source) \
-                and not basename(template)[0] == '_':
-            _base_filename = join(self.path, '_base.html')
+        if (
+            template_ext in [".html", ".md"]
+            and not re.match(r'^\s*{% extends "', source)
+            and not basename(template)[0] == "_"
+        ):
+            _base_filename = join(self.path, "_base.html")
             if exists(_base_filename):
                 extended_source = '{% extends "_base.html" %}\n'
-                extended_source += '{% block content %}'
+                extended_source += "{% block content %}"
                 extended_source += source
-                extended_source += '{% endblock %}'
+                extended_source += "{% endblock %}"
                 source = extended_source
 
         # Set dependencies for this template
-        referenced_templates = self._find_referenced_templates(template, source, environment)
+        referenced_templates = self._find_referenced_templates(
+            template, source, environment
+        )
         self._included_templates[template] = referenced_templates
 
         return source, path, lambda: mtime == getmtime(path)
@@ -153,13 +159,15 @@ class QWTemplateLoader(BaseLoader):
         try:
             ast = environment.parse(source)
         except:  # NOQA: E722
-            print("Error rendering template "+name)
+            print("Error rendering template " + name)
             raise
         references = [x for x in meta.find_referenced_templates(ast)]
         for name in references:
-            with open(join(self.path, name), 'rb') as f:
-                source = f.read().decode('utf-8')
-                references.extend(self._find_referenced_templates(name, source, environment))
+            with open(join(self.path, name), "rb") as f:
+                source = f.read().decode("utf-8")
+                references.extend(
+                    self._find_referenced_templates(name, source, environment)
+                )
         return references
 
     def referenced_templates(self, name):
@@ -168,8 +176,10 @@ class QWTemplateLoader(BaseLoader):
 
 def paragraphs(input):
     """ Split lines and return them enclosed in HTML paragraphs """
-    html_p_list = list(map(lambda x: '<p>{0}</p>'.format(escape(x)), input.splitlines()))
-    return Markup(''.join(html_p_list))
+    html_p_list = list(
+        map(lambda x: "<p>{0}</p>".format(escape(x)), input.splitlines())
+    )
+    return Markup("".join(html_p_list))
 
 
 # In case jinja2 extenions become a need, some good examples can be found at:

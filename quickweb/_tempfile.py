@@ -40,13 +40,16 @@ class TemporaryDirectory(object):
                 # up due to missing globals
                 if "None" not in str(ex):
                     raise
-                print("ERROR: {!r} while cleaning up {!r}".format(ex, self,),
-                      file=sys.stderr)
+                print(
+                    "ERROR: {!r} while cleaning up {!r}".format(ex, self,),
+                    file=sys.stderr,
+                )
                 return
             self._closed = True
             if _warn:
-                self._warn("Implicitly cleaning up {!r}".format(self),
-                           "ResourceWarning")
+                self._warn(
+                    "Implicitly cleaning up {!r}".format(self), "ResourceWarning"
+                )
 
     def __exit__(self, exc, value, tb):
         self.cleanup()

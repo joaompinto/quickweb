@@ -25,24 +25,26 @@ def create(app_directory, template_name, force):
         if force:
             shutil.rmtree(app_directory)
         else:
-            print_error(app_directory + ' already exists!')
-            print('Use %s if you want to overwrite.' % warning('--force'))
+            print_error(app_directory + " already exists!")
+            print("Use %s if you want to overwrite." % warning("--force"))
             sys.exit(2)
 
     download_template(template_name, app_directory)
     doc_path = os.path.dirname(doc.__file__)
-    quickweb_required_mask = join(doc_path, '*.md')
+    quickweb_required_mask = join(doc_path, "*.md")
     required_files = glob(quickweb_required_mask)
     base_required_files = [basename(x) for x in required_files]
-    print("** Adding startup files %s from %s" %
-          (info(str(base_required_files)), info(doc_path)))
+    print(
+        "** Adding startup files %s from %s"
+        % (info(str(base_required_files)), info(doc_path))
+    )
     for filename in required_files:
         shutil.copy(filename, app_directory)
-    print_success('Application successfully created.')
-    print_success('You can start it with:')
-    print('    ' + success('quickweb run ' + app_directory))
-    print_success('Or read about the app structure with:')
-    print('    ' + success('more ' + join(app_directory, 'QuickWeb_Application.md')))
+    print_success("Application successfully created.")
+    print_success("You can start it with:")
+    print("    " + success("quickweb run " + app_directory))
+    print_success("Or read about the app structure with:")
+    print("    " + success("more " + join(app_directory, "QuickWeb_Application.md")))
     print("**")
 
 
@@ -59,7 +61,7 @@ def describe(app_directory):
 def setup_cf_deployment(app_directory):
     app_directory = app_directory or os.getcwd()
     app_name = basename(app_directory)
-    webroot_dir = join(app_directory, 'webroot')
+    webroot_dir = join(app_directory, "webroot")
     if not isdir(webroot_dir):
         print_error("Unable to find webroot directory '%s'" % webroot_dir)
         exit(2)
@@ -71,20 +73,22 @@ applications:
   memory: 128M
   buildpack: python_buildpack
   random-route: true # Choose a proper hostname with host: name
-""".format(app_name)
-    with open(join(app_directory, 'manifest.yaml'), 'w') as manifest_file:
+""".format(
+        app_name
+    )
+    with open(join(app_directory, "manifest.yaml"), "w") as manifest_file:
         manifest_file.write(manifest_yaml)
-    with open(join(app_directory, 'requirements.txt'), 'w') as requests_file:
+    with open(join(app_directory, "requirements.txt"), "w") as requests_file:
         requests_file.write("quickweb>={0}\n".format(quickweb.version()))
 
-    with open(join(app_directory, 'Procfile'), 'w') as procfile:
+    with open(join(app_directory, "Procfile"), "w") as procfile:
         procfile.write("web: quickweb run . --no-logs\n")
 
 
 def setup_docker_deployment(app_directory):
     app_directory = app_directory or os.getcwd()
     app_name = basename(app_directory)
-    webroot_dir = join(app_directory, 'webroot')
+    webroot_dir = join(app_directory, "webroot")
     if not isdir(webroot_dir):
         print_error("Unable to find webroot directory '%s'" % webroot_dir)
         exit(2)
@@ -100,8 +104,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD [ "quickweb", "run", "/usr/src/app", "--no-logs" ]
-""".format(app_name)
-    with open(join(app_directory, 'Dockerfile'), 'w') as manifest_file:
+""".format(
+        app_name
+    )
+    with open(join(app_directory, "Dockerfile"), "w") as manifest_file:
         manifest_file.write(dockerfile_txt)
-    with open(join(app_directory, 'requirements.txt'), 'w') as requests_file:
+    with open(join(app_directory, "requirements.txt"), "w") as requests_file:
         requests_file.write("quickweb>={0}\n".format(quickweb.version()))

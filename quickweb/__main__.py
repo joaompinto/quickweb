@@ -27,33 +27,38 @@ from . import app_manager, template_manager, version
 init()
 
 # Make sure we use the source directory for imports when running during development
-script_dir = join(dirname(os.path.realpath(__file__)), '..')
+script_dir = join(dirname(os.path.realpath(__file__)), "..")
 sys.path.insert(0, script_dir)
 
 
 def main():
-    arguments = docopt(__doc__, version='QuickWeb %s' % version())
+    arguments = docopt(__doc__, version="QuickWeb %s" % version())
     print()
 
-    if arguments['create']:
+    if arguments["create"]:
         app_manager.create(
-            arguments['<app_directory>'], arguments['<template_name>'], arguments['--force'])
-
-    if arguments['run']:
-        app_manager.run(
-            arguments['<app_directory>'], arguments['<listener_address>'], arguments['--no-logs']
+            arguments["<app_directory>"],
+            arguments["<template_name>"],
+            arguments["--force"],
         )
 
-    if arguments['setup-cf-deployment']:
-        app_manager.setup_cf_deployment(arguments['<app_directory>'])
+    if arguments["run"]:
+        app_manager.run(
+            arguments["<app_directory>"],
+            arguments["<listener_address>"],
+            arguments["--no-logs"],
+        )
 
-    if arguments['setup-docker-deployment']:
-        app_manager.setup_docker_deployment(arguments['<app_directory>'])
+    if arguments["setup-cf-deployment"]:
+        app_manager.setup_cf_deployment(arguments["<app_directory>"])
 
-    if arguments['describe']:
-        app_manager.describe(arguments['<app_directory>'])
+    if arguments["setup-docker-deployment"]:
+        app_manager.setup_docker_deployment(arguments["<app_directory>"])
 
-    if arguments['templates']:
+    if arguments["describe"]:
+        app_manager.describe(arguments["<app_directory>"])
+
+    if arguments["templates"]:
         template_manager.list()
 
 
