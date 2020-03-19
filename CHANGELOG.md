@@ -3,8 +3,8 @@
 
 ## v1.2.5
 
-* Provide environment variables for templates, on "env"
-* Add support for CORS using CORS_DOMAIN env
+* Provide environment variables for templates on "env"
+* Add support for CORS using CORS_DOMAIN
 
 ## v1.2.4
 
