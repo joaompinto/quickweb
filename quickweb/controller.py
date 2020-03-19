@@ -3,6 +3,9 @@ import os
 import re
 import sys
 import cherrypy
+import importlib
+from os.path import join, exists, basename, splitext
+from glob import glob
 
 this = sys.modules[__name__]
 
@@ -210,7 +213,10 @@ def get_domain():
     host = get_host()
 
     if host:
-        domain = '.'.join(host.split(".")[1:])
+        if "." in host:
+            domain = ".".join(host.split(".")[1:])
+        else:
+            domain = host
         return domain
 
 
@@ -257,3 +263,23 @@ def set_navigation_info(*args, **kwargs):
         raise Exception("Duplicated place_after for target '%s'" % constraint_target)
 
     this._navigation_place_after((current_path(), constraint_target))
+
+
+def load_app_modules(app_directory):
+    libglob = join(app_directory, "lib", "*.py")
+    libinit_fname = join(app_directory, "lib", "__init__.py")
+    if not exists(libinit_fname):
+        return
+
+    spec = importlib.util.spec_from_file_location("lib", libinit_fname)
+    lib_load_module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(lib_load_module)
+    setattr(this, "lib", lib_load_module)
+
+    for filename in glob(libglob):
+        print("** Loading library", filename)
+        module_name = splitext(basename(filename))[0]
+        spec = importlib.util.spec_from_file_location(module_name, filename)
+        load_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(load_module)
+        setattr(lib_load_module, module_name, load_module)

@@ -22,6 +22,7 @@ def setup_app(app_name, app_directory, no_logs):
         print_warn("Running in TEST mode")
 
     app_directory = abspath(app_directory)
+    controller.load_app_modules(app_directory)
 
     os.chdir(app_directory)
     set_engine_config(test_mode, no_logs)

@@ -1,5 +1,14 @@
 # ChangeLog
 
+
+## v1.2.2
+
+* load modules from application lib/ dir
+
+## v1.2.1
+
+* fix get_domain() with localhost (thanks to Oana Apostol for reporting)
+
 ## v1.2.0
 
 * added lang support
