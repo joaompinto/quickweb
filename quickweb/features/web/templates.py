@@ -105,7 +105,7 @@ class TemplateEngine:
                     yaml_data = yaml.safe_load(yaml_renderer.render())
                     yaml_variables.update(dict(yaml_data))
                     break
-        yaml_variables['env'] = environ
+        yaml_variables["env"] = environ
         yaml_variables.update(**kwargs)
 
         return template.render(**yaml_variables)

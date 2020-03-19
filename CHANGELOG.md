@@ -1,6 +1,11 @@
 # ChangeLog
 
 
+## v1.2.5
+
+* Provide environment variables for templates, on "env"
+* Add support for CORS using CORS_DOMAIN env
+
 ## v1.2.4
 
 * support variables injection on template render()
