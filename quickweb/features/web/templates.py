@@ -60,7 +60,7 @@ class TemplateController(object):
 
     @controller.publish
     def index(self):
-        return self._template_engine.render(self._path, controller.get_lang)
+        return self._template_engine.render(self._path, controller.get_lang())
 
 
 class TemplateEngine:
@@ -84,7 +84,7 @@ class TemplateEngine:
         self._engine.filters["paragraphs"] = paragraphs
         self._engine.filters["markdown"] = lambda x: Markup(markdown(x))
 
-    def render(self, name, lang):
+    def render(self, name, lang, **kwargs):
 
         template = self._engine.get_template(name)
         # Load .yaml data for all referenced templates
@@ -94,16 +94,17 @@ class TemplateEngine:
         yaml_variables = {}
         for template_name in referenced_templates:
             noext_name, ext = splitext(template_name)
-            for try_part in [noext_name + "_" + lang(), noext_name]:
+            for try_part in [noext_name + "_" + lang, noext_name]:
                 yaml_data_filename = try_part + ".yaml"
                 try:
                     yaml_renderer = self._engine.get_template(yaml_data_filename)
                 except TemplateNotFound:
                     pass
                 else:
-                    yaml_data = yaml.load(yaml_renderer.render())
+                    yaml_data = yaml.safe_load(yaml_renderer.render())
                     yaml_variables.update(dict(yaml_data))
                     break
+        yaml_variables.update(**kwargs)
 
         return template.render(**yaml_variables)
 

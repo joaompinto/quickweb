@@ -83,7 +83,7 @@ def run_test(server_base_url, test_filename):
     app = TestApp(server_base_url)
 
     with open(test_filename, "r") as yaml_file:
-        doc = yaml.load_all(yaml_file)
+        doc = yaml.safe_load_all(yaml_file)
         for test_doc in doc:
             title = test_doc["title"]
             padding = (80 - len(title)) * " "

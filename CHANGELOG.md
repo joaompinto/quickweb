@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.2.4
+
+* support variables injection on template render()
+
 ## v1.2.3
 
 * reload web server when modules in the lib dir are updated

@@ -101,12 +101,12 @@ def load_yaml(filename):
     multi_document_found = False
     with open(filename) as data_file:
         try:
-            data = yaml.load(data_file)
+            data = yaml.safe_load(data_file)
         except yaml.composer.ComposerError:
             multi_document_found = True
     if multi_document_found:
         with open(filename) as data_file:
-            data = [x for x in yaml.load_all(data_file) if x]
+            data = [x for x in yaml.safe_load_all(data_file) if x]
     return data
 
 
