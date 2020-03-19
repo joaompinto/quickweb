@@ -21,11 +21,13 @@ class Feature(object):
         chdir() into the provided directory
         """
         content_directory = self._content_directory = "webroot"
+        lib_directory = "lib"
 
         if not isdir(content_directory):
             print_error("Unable to find content directory '%s'" % content_directory)
             sys.exit(1)
         cherrypy.engine.autoreload.files.add(content_directory)
+        cherrypy.engine.autoreload.files.add(lib_directory)
 
     def activate(self):
         """ Trigger the content dir/file_dir events """

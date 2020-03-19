@@ -283,3 +283,4 @@ def load_app_modules(app_directory):
         load_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(load_module)
         setattr(lib_load_module, module_name, load_module)
+        cherrypy.engine.autoreload.files.add(filename)

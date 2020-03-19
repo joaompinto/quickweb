@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.2.3
+
+* reload web server when modules in the lib dir are updated
+
 ## v1.2.2
 
 * load modules from application lib/ dir
