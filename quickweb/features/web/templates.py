@@ -4,6 +4,7 @@
 import yaml
 import re
 
+from os import environ
 from os.path import basename, dirname, join, exists, getmtime, splitext
 from jinja2 import TemplateNotFound, Environment, select_autoescape, meta
 from jinja2 import BaseLoader, Markup, escape
@@ -104,6 +105,7 @@ class TemplateEngine:
                     yaml_data = yaml.safe_load(yaml_renderer.render())
                     yaml_variables.update(dict(yaml_data))
                     break
+        yaml_variables['env'] = environ
         yaml_variables.update(**kwargs)
 
         return template.render(**yaml_variables)
