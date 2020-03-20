@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.2.6
+
+* Add controller.render()
+
 ## v1.2.5
 
 * Provide environment variables for templates on "env"

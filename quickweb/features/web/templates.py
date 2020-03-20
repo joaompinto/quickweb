@@ -27,6 +27,7 @@ class Feature(object):
 
     def on_content_directory_set(self, content_directory):
         self._template_engine = TemplateEngine(content_directory)
+        controller._template_engine = self._template_engine
 
     def on_found_content_file(self, content_root, content_name):
         """ A file was found """

@@ -15,6 +15,7 @@ class ApplicationNode:
 
 
 this._app_root = ApplicationNode()
+this._template_engine = None
 
 # Dictionary with URL to Name mapping to be displayed on navigation components
 this._navigation = {}
@@ -284,3 +285,9 @@ def load_app_modules(app_directory):
         spec.loader.exec_module(load_module)
         setattr(lib_load_module, module_name, load_module)
         cherrypy.engine.autoreload.files.add(filename)
+
+
+def render(name, lang=None, **kwargs):
+    if not lang:
+        lang = get_lang()
+    return this._template_engine.render(name, lang, **kwargs)
