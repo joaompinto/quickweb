@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.2.7
+
+* Make session("key") available on templates
+
 ## v1.2.6
 
 * Add controller.render()

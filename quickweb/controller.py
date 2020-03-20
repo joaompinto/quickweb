@@ -194,6 +194,7 @@ def helpers():
         "language": get_lang,
         "domain": get_domain,
         "scheme": get_scheme,
+        "session": get_session_value,
     }
     return helpers_dict
 
