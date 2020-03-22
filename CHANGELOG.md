@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.2.8
+
+* Set lang to 'en' when hostname has no dot
+
 ## v1.2.7
 
 * Make session("key") available on templates

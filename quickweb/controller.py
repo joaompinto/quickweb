@@ -206,9 +206,11 @@ def get_host():
 
 
 def get_lang():
+    lang = "en"
     host = get_host()
-    if host:
-        return host.split(".")[0]
+    if host and '.' in host:
+        lang = host.split(".")[0]
+    return lang
 
 
 def get_domain():
