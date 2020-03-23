@@ -38,7 +38,8 @@ def setup_app(app_name, app_directory, no_logs):
 
 
 def load_tools(app_directory):
-    tools_glob = join(app_directory, "tools", "*.py")
+    tools_dir = join(app_directory, "tools")
+    tools_glob = join(tools_dir,  "*.py")
     for tool_filename in glob(tools_glob):
         tool_name = basename(tool_filename).split(".")[0]
         print(f"** Loading tool {tool_filename}")
@@ -49,10 +50,13 @@ def load_tools(app_directory):
             f"tools.{tool_name}.on": True
         }
         cherrypy.config.update(app_config)
+        cherrypy.engine.autoreload.files.add(tool_filename)
+    cherrypy.engine.autoreload.files.add(tools_dir)
 
 
 def run_boot(app_directory):
-    boot_log = join(app_directory, "boot", "*.py")
+    boot_dir = join(app_directory, "boot")
+    boot_log = join(boot_dir, "*.py")
     for boot_filename in glob(boot_log):
         boot_name = basename(boot_filename).split(".")[0]
         print(f"** Running boot script {boot_filename}")
@@ -60,6 +64,8 @@ def run_boot(app_directory):
         boot_module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(boot_module)
         boot_module.start()
+        cherrypy.engine.autoreload.files.add(boot_filename)
+    cherrypy.engine.autoreload.files.add(boot_dir)
 
 
 def setup_features():

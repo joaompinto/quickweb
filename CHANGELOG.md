@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.3.1
+
+* Reload boot/tools when they are changed
+
 ## v1.3.0
 
 * Load cherrypy tools from app_dir/tools
