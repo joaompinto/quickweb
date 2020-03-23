@@ -1,6 +1,10 @@
 # ChangeLog
 
 
+## v1.3.0
+
+* Load cherrypy tools from app_dir/tools
+
 ## v1.2.8
 
 * Set lang to 'en' when hostname has no dot

@@ -4,8 +4,10 @@
 """
 import os
 import sys
+import importlib
 from os import environ
-from os.path import abspath, join, dirname
+from os.path import abspath, join, dirname, basename
+from glob import glob
 
 import cherrypy
 import quickweb
@@ -27,10 +29,25 @@ def setup_app(app_name, app_directory, no_logs):
 
     os.chdir(app_directory)
     set_engine_config(test_mode, no_logs)
+    load_tools(app_directory)
     setup_features()
 
     data_provider.set_base_dir(app_directory)
     cherrypy.tree.mount(controller.get_app_root(), config=web_app_config)
+
+
+def load_tools(app_directory):
+    tools_glob = join(app_directory, "tools", "*.py")
+    for tool_filename in glob(tools_glob):
+        tool_name = basename(tool_filename).split(".")[0]
+        print(f"** Loading tool {tool_filename}")
+        spec = importlib.util.spec_from_file_location("tools_"+tool_name, tool_filename)
+        dbsupport = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(dbsupport)
+        app_config = {
+            f"tools.{tool_name}.on": True
+        }
+        cherrypy.config.update(app_config)
 
 
 def setup_features():
