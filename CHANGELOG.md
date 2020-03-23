@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.3.2
+
+* Disable sessions by default, can be enabled via boot script
+
 
 ## v1.3.1
 

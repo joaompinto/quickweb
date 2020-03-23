@@ -120,7 +120,6 @@ def set_engine_config(test_mode, no_logs):
         "tools.encode.encoding": "utf-8",
         "tools.encode.errors": "replace",
         "tools.trailing_slash.on": False,
-        "tools.sessions.on": True,
         "checker.on": False,
     }
 
