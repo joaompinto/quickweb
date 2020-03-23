@@ -4,6 +4,7 @@
 ## v1.3.0
 
 * Load cherrypy tools from app_dir/tools
+* Load modules on app start from app_dir/boot
 
 ## v1.2.8
 

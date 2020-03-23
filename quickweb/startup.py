@@ -28,6 +28,7 @@ def setup_app(app_name, app_directory, no_logs):
     controller.load_app_modules(app_directory)
 
     os.chdir(app_directory)
+    run_boot(app_directory)
     set_engine_config(test_mode, no_logs)
     load_tools(app_directory)
     setup_features()
@@ -42,12 +43,23 @@ def load_tools(app_directory):
         tool_name = basename(tool_filename).split(".")[0]
         print(f"** Loading tool {tool_filename}")
         spec = importlib.util.spec_from_file_location("tools_"+tool_name, tool_filename)
-        dbsupport = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(dbsupport)
+        tool = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(tool)
         app_config = {
             f"tools.{tool_name}.on": True
         }
         cherrypy.config.update(app_config)
+
+
+def run_boot(app_directory):
+    boot_log = join(app_directory, "boot", "*.py")
+    for boot_filename in glob(boot_log):
+        boot_name = basename(boot_filename).split(".")[0]
+        print(f"** Running boot script {boot_filename}")
+        spec = importlib.util.spec_from_file_location("boot_"+boot_name, boot_filename)
+        boot_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(boot_module)
+        boot_module.start()
 
 
 def setup_features():
