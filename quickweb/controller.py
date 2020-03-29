@@ -208,7 +208,7 @@ def get_host():
 def get_lang():
     lang = "en"
     host = get_host()
-    if host and '.' in host:
+    if host and "." in host:
         lang = host.split(".")[0]
     return lang
 
@@ -225,8 +225,8 @@ def get_domain():
 
 
 def get_scheme():
-    if os.environ.get('FORCE_HTTPS')
-        return 'https'
+    if os.environ.get("FORCE_HTTPS"):
+        return "https"
     return cherrypy.request.scheme
 
 
