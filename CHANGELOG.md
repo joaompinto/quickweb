@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.4.0
+
+* Set scheme to https when FORCE_HTTPS env is set
+
 ## v1.3.2
 
 * Disable sessions by default, can be enabled via boot script
