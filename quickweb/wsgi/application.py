@@ -90,7 +90,6 @@ def set_default_config():
             "tools.encode.errors": "replace",
         }
     )
-    cherrypy.config.update({"tools.sessions.on": True})
     cherrypy.config.update({"environment": "embedded"})
     setup_logging()
 
