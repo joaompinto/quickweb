@@ -139,15 +139,5 @@ def set_engine_config(test_mode, no_logs):
         app_config.update(
             {"log.screen": False, "log.access_file": None, "log.error_file": None}
         )
-    cors_domain = environ.get("CORS_DOMAIN")
-    if cors_domain:
-        app_config.update(
-            {
-                "tools.response_headers.on": True,
-                "tools.response_headers.headers": [
-                    ("Access-Control-Allow-Origin", cors_domain)
-                ],
-            }
-        )
 
     cherrypy.config.update(app_config)
