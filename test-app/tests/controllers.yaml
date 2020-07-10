@@ -1,4 +1,4 @@
-%YAML 1.1
+%YAML 1.2
 # Still in draft
 # When not specified, the method for input is assumed to be GET
 # The following validation fields are supported:
@@ -34,3 +34,11 @@ input:
 validate:
   status: 200
   body: PythonTEST with Color
+---
+title: Test Index Controller
+input:
+  url: /t1
+validate:
+  status: 200
+  body: INDEX OK
+

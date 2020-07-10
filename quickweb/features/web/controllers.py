@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """ Provides dynamic content using python controller """
-from os.path import basename, join, splitext
+from os.path import basename, join, splitext, dirname
 from fnmatch import fnmatch
 import imp
 import warnings
@@ -24,8 +24,10 @@ class Feature(object):
         if not fnmatch(basename(content_name), on_file_name):
             return
 
-        url = "/" + content_name
-
+        if basename(content_name) == "index.py":
+            url = "/" + dirname(content_name)
+        else:
+            url = "/" + content_name
         noext_name, ext = splitext(url)
         url = noext_name
 
