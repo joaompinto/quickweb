@@ -22,7 +22,7 @@ import sys
 from os.path import join, dirname
 from docopt import docopt
 from colorama import init
-from . import app_manager, template_manager, version
+from quickweb import app_manager, template_manager, version
 
 init()
 

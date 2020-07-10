@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.4.1
+
+* Fix app hot reloading on Windows
+
 ## v1.4.0
 
 * Set scheme to https when FORCE_HTTPS env is set
