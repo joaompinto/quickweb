@@ -282,6 +282,9 @@ def load_app_modules(app_directory):
     spec.loader.exec_module(lib_load_module)
     setattr(this, "lib", lib_load_module)
 
+    libdir = join(app_directory, "lib")
+    sys.path.append(libdir)
+
     for filename in glob(libglob):
         print("** Loading library", filename)
         module_name = splitext(basename(filename))[0]
@@ -291,6 +294,7 @@ def load_app_modules(app_directory):
         setattr(lib_load_module, module_name, load_module)
         cherrypy.engine.autoreload.files.add(filename)
 
+    sys.path.remove(libdir)
 
 def render(name, lang=None, **kwargs):
     if not lang:
