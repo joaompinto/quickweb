@@ -10,6 +10,9 @@ import quickweb
 from quickweb import startup
 from quickweb.colorhelper import info
 import importlib
+from cheroot.server import HTTPServer
+from cheroot.ssl.builtin import BuiltinSSLAdapter
+import ssl
 
 
 def run(app_directory, listener_address=None, no_logs=False, running_describe=False):
@@ -58,17 +61,22 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
         socket_host = "127.0.0.1"
     if listener_address is not None:
         socket_host = listener_address
-    ssl_certificate = os.environ.get("SSL_CERTIFICATE")
-    if ssl_certificate:
-        print("Using ssl")
-        cherrypy.config.update({"server.ssl_module": 'pyopenssl'})
-        cherrypy.config.update({"server.ssl_certificate ": ssl_certificate})
-        cherrypy.config.update({"server.ssl_private_key  ": os.environ["SSL_PRIVATE_KEY"]})
 
     cherrypy.config.update({"server.socket_host": socket_host})
     cherrypy.config.update({"server.socket_port": listener_port})
 
-    # In some platforms signals are not available:
+    ssl_certificate = os.environ.get("SSL_CERTIFICATE")
+    if ssl_certificate:
+        server_config = {
+            'server.ssl_certificate': ssl_certificate,
+            'server.ssl_private_key': os.environ["SSL_PRIVATE_KEY"],
+            'server.ssl_verify_mode': ssl.CERT_REQUIRED
+        }
+        ssl_certificate_chain = os.environ.get("SSL_CERTIFICATE_CHAIN")
+        if ssl_certificate_chain:
+            server_config['server.ssl_certificate_chain'] = ssl_certificate_chain
+        cherrypy.config.update(server_config)
+
     if hasattr(cherrypy.engine, "signals"):
         cherrypy.engine.signals.subscribe()
     cherrypy.engine.subscribe("stop", lambda: os.chdir(startup_cwd))

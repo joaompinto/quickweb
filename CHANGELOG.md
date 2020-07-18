@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.5.0
+
+* Add SSL support (env: SSL_PRIVATE_KEY, SSL_PRIVATE_KEY, SSL_CERTIFICATE_CHAIN)
+
 ## v1.4.1
 
 * Fix app hot reloading on Windows
