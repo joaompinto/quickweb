@@ -58,6 +58,13 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
         socket_host = "127.0.0.1"
     if listener_address is not None:
         socket_host = listener_address
+    ssl_certificate = os.environ.get("SSL_CERTIFICATE")
+    if ssl_certificate:
+        print("Using ssl")
+        cherrypy.config.update({"server.ssl_module": 'pyopenssl'})
+        cherrypy.config.update({"server.ssl_certificate ": ssl_certificate})
+        cherrypy.config.update({"server.ssl_private_key  ": os.environ["SSL_PRIVATE_KEY"]})
+
     cherrypy.config.update({"server.socket_host": socket_host})
     cherrypy.config.update({"server.socket_port": listener_port})
 
