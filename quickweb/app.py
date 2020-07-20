@@ -67,16 +67,20 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
 
     ssl_certificate = os.environ.get("SSL_CERTIFICATE")
     if ssl_certificate:
-        server_config = {
-            'server.ssl_certificate': ssl_certificate,
-            'server.ssl_private_key': os.environ["SSL_PRIVATE_KEY"],
-            'server.ssl_verify_mode': ssl.CERT_REQUIRED
-        }
-        ssl_certificate_chain = os.environ.get("SSL_CERTIFICATE_CHAIN")
-        if ssl_certificate_chain:
-            server_config['server.ssl_certificate_chain'] = ssl_certificate_chain
-        cherrypy.config.update(server_config)
+        ssl_adapter = BuiltinSSLAdapter(
+            certificate=ssl_certificate,
+            private_key=os.environ["SSL_PRIVATE_KEY"],
+            certificate_chain=os.environ.get("SSL_CERTIFICATE_CHAIN")
+        )
+        verify_mode = ssl.CERT_NONE
+        if os.getenv("SSL_VERIFY_CLIENT_CERT") == "required":
+            verify_mode = ssl.CERT_REQUIRED
+        if os.getenv("SSL_VERIFY_CLIENT_CERT") == "optional":
+            verify_mode = ssl.CERT_OPTIONAL
+        ssl_adapter.context.verify_mode = verify_mode
+        HTTPServer.ssl_adapter = ssl_adapter
 
+    # In some platforms signals are not available:
     if hasattr(cherrypy.engine, "signals"):
         cherrypy.engine.signals.subscribe()
     cherrypy.engine.subscribe("stop", lambda: os.chdir(startup_cwd))

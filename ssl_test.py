@@ -1,5 +1,6 @@
 import cherrypy
 
+
 class RootServer:
     @cherrypy.expose
     def index(self, **keywords):
