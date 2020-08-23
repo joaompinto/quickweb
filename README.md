@@ -1,17 +1,8 @@
-<p style="text-align: center;">
-<b><a href="#Installing">Installing</a></b>
-|
-<b><a href="#getting-started">Getting Started</a></b>
-|
-<b><a href="#features">Features</a></b>
-|
-<b><a href="#contributing">Contributing</a></b>
-</p>
-
-## Features
+# QuickWeb
 
 QuickWeb is a Python Web Application Server based on the production-proved [CherryPy](https://cherrypy.org/) Web Framework extended with developer friendly features:
 
+## Features
 - Custom static content folders (any folder containing a `.static` file)
 - Automatic path based routing for templates and controllers, e.g.:
   - /about.html available as /about
@@ -68,21 +59,7 @@ NOTES:
    - Use the instructions for python web applications setup/deployment
  * The level of support for python based apps will depend on your provider, check it's documentation for details
 
-## Features
-QuickWeb is still on an early stage of development, the following are core features:
 
-- Static content serving from restricted locations (create a .static file in a directory to mark it as static)
-- HTML files templating support, using [Jinja2](jinja.pocoo.org/docs/latest/).
-    - Extended with HTTP specific functions:
-        - TODO: Execution context (current_url)
-        - TODO: Session (get)
-        - TODO: Cookies (get)
-        - TODO: Authentication
-        - TODO: Authorization
-    - Extended with the following templating capabilities:
-      - local data providers for JSON/YAML files
-- Automatic HTML rendering using Markdown (.md) files
-- Server side web appliction code handlers «named controllers», using the pythonic object-oriented web framework [CherryPy](http://cherrypy.org/) .
 
 ## Contributing
 Check the [Contributing Guide](docs/CONTRIBUTING.md).
