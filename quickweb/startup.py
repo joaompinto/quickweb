@@ -5,7 +5,6 @@
 import os
 import sys
 import importlib
-from os import environ
 from os.path import abspath, join, dirname, basename
 from glob import glob
 

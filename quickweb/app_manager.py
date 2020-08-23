@@ -87,7 +87,6 @@ applications:
 
 def setup_docker_deployment(app_directory):
     app_directory = app_directory or os.getcwd()
-    app_name = basename(app_directory)
     webroot_dir = join(app_directory, "webroot")
     if not isdir(webroot_dir):
         print_error("Unable to find webroot directory '%s'" % webroot_dir)
@@ -104,9 +103,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 CMD [ "quickweb", "run", "/usr/src/app", "--no-logs" ]
-""".format(
-        app_name
-    )
+"""
     with open(join(app_directory, "Dockerfile"), "w") as manifest_file:
         manifest_file.write(dockerfile_txt)
     with open(join(app_directory, "requirements.txt"), "w") as requests_file:

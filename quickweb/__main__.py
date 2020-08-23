@@ -24,6 +24,7 @@ from docopt import docopt
 from colorama import init
 from quickweb import app_manager, template_manager, version
 
+
 init()
 
 # Make sure we use the source directory for imports when running during development
@@ -32,7 +33,7 @@ sys.path.insert(0, script_dir)
 
 
 def main():
-    arguments = docopt(__doc__, version="QuickWeb %s" % version())
+    arguments = docopt(__doc__, version="QuickWeb %s" % version.version)
     print()
 
     if arguments["create"]:

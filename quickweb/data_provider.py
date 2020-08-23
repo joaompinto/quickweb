@@ -7,6 +7,7 @@
 import os
 import sys
 import json
+from urllib.parse import urlparse
 from os.path import abspath, splitext, isfile, join
 import cherrypy
 import yaml
@@ -54,9 +55,7 @@ def get_postgresql(provider_url):
     return data
 
 
-def get(provider_name, provider_key=None):
-    """ Return an iterable object with data content.
-    """
+def _search_path(provider_name):
     parsed_url = urlparse(provider_name)
     if parsed_url.scheme != "":  # Schemes are note supported at this time
         return
@@ -70,6 +69,12 @@ def get(provider_name, provider_key=None):
             search_path.append(resource_path + extension)
     else:
         search_path = [resource_path]
+
+
+def get(provider_name, provider_key=None):
+    """ Return an iterable object with data content.
+    """
+    search_path = _search_path(provider_name)
 
     found_resource_path = None
     for path in search_path:

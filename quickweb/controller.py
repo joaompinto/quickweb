@@ -296,6 +296,7 @@ def load_app_modules(app_directory):
 
     sys.path.remove(libdir)
 
+
 def render(name, lang=None, **kwargs):
     if not lang:
         lang = get_lang()

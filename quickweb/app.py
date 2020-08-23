@@ -3,13 +3,10 @@
 import os
 import sys
 from time import time
-from os.path import join, exists
-from glob import glob
 import cherrypy
 import quickweb
 from quickweb import startup
 from quickweb.colorhelper import info
-import importlib
 from cheroot.server import HTTPServer
 from cheroot.ssl.builtin import BuiltinSSLAdapter
 import ssl
@@ -29,7 +26,7 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
     start_t = time()  # Use for startup time calculation
     print(
         "** Starting application %s using QuickWeb %s "
-        % (info(app_directory), info(quickweb.version()))
+        % (info(app_directory), info(quickweb.version.version))
     )
     startup_cwd = os.getcwd()
 
@@ -70,7 +67,7 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
         ssl_adapter = BuiltinSSLAdapter(
             certificate=ssl_certificate,
             private_key=os.environ["SSL_PRIVATE_KEY"],
-            certificate_chain=os.environ.get("SSL_CERTIFICATE_CHAIN")
+            certificate_chain=os.environ.get("SSL_CERTIFICATE_CHAIN"),
         )
         verify_mode = ssl.CERT_NONE
         if os.getenv("SSL_VERIFY_CLIENT_CERT") == "required":

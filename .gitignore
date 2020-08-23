@@ -56,3 +56,4 @@ docs/html_docs.zip
 
 *.pid
 *.log
+quickweb/version.py

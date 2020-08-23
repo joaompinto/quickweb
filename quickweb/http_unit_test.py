@@ -23,10 +23,7 @@ sys.path.insert(0, script_dir)
 from quickweb.colorhelper import info, print_success, print_error  # noqa: E402
 
 
-def validate(response, validation_rules):
-    """
-    Validates an HTTP response, headers and body (when provided for validation)
-    """
+def validate_headers(response, validation_rules):
     validate_headers = validation_rules.get("headers")
     if validate_headers:
         for header_match in validate_headers:
@@ -49,6 +46,13 @@ def validate(response, validation_rules):
                 print_error("FAILED: Header %s missing from response" % header_name)
                 print_error("Available Headers" + str(response.headerlist))
                 exit(1)
+
+
+def validate(response, validation_rules):
+    """
+    Validates an HTTP response, headers and body (when provided for validation)
+    """
+    validate_headers(response, validation_rules)
 
     validate_body_list = validation_rules.get("body", [])
     if validate_body_list and isinstance(validate_body_list, str):
