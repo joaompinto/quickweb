@@ -8,7 +8,19 @@
 <b><a href="#contributing">Contributing</a></b>
 </p>
 
-**QuickWeb** is a rapid web application development framework using a "content first" solution design philosophy. It's built on Python, but you don't need to write Python to use it. Using the available templates you don't even need to write HTML/CSS/JS for producing and delivering your content. QW apps can be deployed into cloud providers and will be integrated with cloud native services.
+## Features
+
+A Python Web Application Server based on the production-proved [CherryPy](https://cherrypy.org/) web framework extended with developer friendly features:
+
+- Custom static content folders (any folder containing a `.static` file)
+- Automatic path based routing for templates and controllers, e.g.:
+  - /about.html available as /about
+  - /submit.py available as /submit
+- Zero code Jinja2 template rendering for .html files, that can:
+  - Use data from YAML files (file.yaml -> file.html)
+  - Use HTTP specific data e.g. {{ session  }}
+- Zero code Markdown files rendering
+- Low code Python controllers
 
 
 ## Installing
@@ -77,4 +89,3 @@ Maintained By
 -------------
 
 * João Pinto for the [Open Pipe](//github.com/OpenPipe) initiative
-
