@@ -10,7 +10,7 @@
 
 ## Features
 
-A Python Web Application Server based on the production-proved [CherryPy](https://cherrypy.org/) web framework extended with developer friendly features:
+QuickWeb is a Python Web Application Server based on the production-proved [CherryPy](https://cherrypy.org/) Web Framework extended with developer friendly features:
 
 - Custom static content folders (any folder containing a `.static` file)
 - Automatic path based routing for templates and controllers, e.g.:
@@ -22,6 +22,7 @@ A Python Web Application Server based on the production-proved [CherryPy](https:
 - Zero code Markdown files rendering
 - Low code Python controllers
 - Integrated HTTP functional Testing
+- Reload on code changes
 
 
 ## Installing
