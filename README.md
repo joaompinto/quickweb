@@ -21,6 +21,7 @@ A Python Web Application Server based on the production-proved [CherryPy](https:
   - Use HTTP specific data e.g. {{ session  }}
 - Zero code Markdown files rendering
 - Low code Python controllers
+- Integrated HTTP functional Testing
 
 
 ## Installing
