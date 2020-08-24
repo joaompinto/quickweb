@@ -1,5 +1,12 @@
 # ChangeLog
 
+## v1.6.0
+
+* Use setuptools_scm for versioning
+* Automate release using github versions
+* Added documentation for the SSL support
+
+
 ## v1.5.0
 
 * Add SSL support (env: SSL_PRIVATE_KEY, SSL_PRIVATE_KEY, SSL_CERTIFICATE_CHAIN)
