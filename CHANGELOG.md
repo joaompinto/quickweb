@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.7.3
+
+* Build wheel using python3.8
+
 ## v1.7.2
 
 * Removed obsolete application.py
