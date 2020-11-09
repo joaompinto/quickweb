@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.7.4
+
+* Set scm_version_options to write the version file
+
 ## v1.7.3
 
 * Build wheel using python3.8
