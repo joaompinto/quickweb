@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.7.2
+
+* Removed obsolete application.py
+
 ## v1.7.1
 
 * Use python:latest for the Docker image
