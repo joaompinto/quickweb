@@ -1,5 +1,9 @@
 # ChangeLog
 
+## v1.7.1
+
+* Use python:latest for the Docker image
+
 ## v1.7.0
 
 * Added environ jinja filter
