@@ -1,4 +1,3 @@
-%YAML 1.1
 # Still in draft
 # When not specified, the method for input is assumed to be GET
 # The following validation fields are supported:
@@ -91,3 +90,22 @@ validate:
     - content-type: text/html;charset=utf-8
   status: 200
   body: <em>bold</em>
+---
+title: Composed template
+input:
+  url: /TestComp
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: This is a test with really nice magic
+
+---
+title: Test environ filter
+input:
+  url: /TestEnviron
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: Test mode is 1

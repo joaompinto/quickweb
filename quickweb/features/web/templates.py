@@ -3,12 +3,14 @@
 
 import yaml
 import re
+import cherrypy
 
 from os import environ
-from os.path import basename, dirname, join, exists, getmtime, splitext
+from os.path import basename, dirname, join, exists, getmtime, splitext, sep
 from jinja2 import TemplateNotFound, Environment, select_autoescape, meta
 from jinja2 import BaseLoader, Markup, escape
 from markdown import markdown
+from importlib.machinery import SourceFileLoader
 
 from quickweb import controller
 from quickweb.events import on_event
@@ -41,6 +43,17 @@ class Feature(object):
         if file_exclude and fnmatch_list(basename(content_name), file_exclude):
             return
 
+        # There is a py file associated with the content file, load it
+        py_fn = splitext(content_root + sep + content_name)[0] + ".py"
+        render_func = None
+        if exists(py_fn):
+            controller_module = SourceFileLoader(py_fn, py_fn).load_module()
+            try:
+                render_func = controller_module.render
+            except AttributeError:
+                raise
+            cherrypy.engine.autoreload.files.add(py_fn)
+
         url = "/" + content_name
         noext_name, ext = splitext(url)
         url = noext_name
@@ -49,20 +62,26 @@ class Feature(object):
         if basename(url) == "index":
             url = dirname(url)
 
-        template_controller = TemplateController(content_name, self._template_engine)
+        template_controller = TemplateController(
+            content_name, self._template_engine, render_func
+        )
         controller.attach(url, template_controller)
 
 
 class TemplateController(object):
     """ Render templates from a webroot dir """
 
-    def __init__(self, path, template_engine):
+    def __init__(self, path, template_engine, render_func):
         self._path = path
         self._template_engine = template_engine
+        self._render_func = render_func
 
     @controller.publish
     def index(self):
-        return self._template_engine.render(self._path, controller.get_lang())
+        kwargs = {}
+        if self._render_func:
+            kwargs = self._render_func()
+        return self._template_engine.render(self._path, controller.get_lang(), **kwargs)
 
 
 class TemplateEngine:
@@ -85,6 +104,7 @@ class TemplateEngine:
         self._engine.globals.update(controller.helpers())
         self._engine.filters["paragraphs"] = paragraphs
         self._engine.filters["markdown"] = lambda x: Markup(markdown(x))
+        self._engine.filters["environ"] = env_override
 
     def render(self, name, lang, **kwargs):
 
@@ -110,6 +130,10 @@ class TemplateEngine:
         yaml_variables.update(**kwargs)
 
         return template.render(**yaml_variables)
+
+
+def env_override(value, key):
+    return environ.get(key, value)
 
 
 class QWTemplateLoader(BaseLoader):

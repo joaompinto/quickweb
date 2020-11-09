@@ -1,5 +1,14 @@
 # ChangeLog
 
+## v1.7.0
+
+* Added environ jinja filter
+* Added composed controller (.html and .py with render())
+
+## v1.6.1
+
+* Add Client SSL support (env: SSL_VERIFY_CLIENT_CERT)
+
 ## v1.6.0
 
 * Use setuptools_scm for versioning

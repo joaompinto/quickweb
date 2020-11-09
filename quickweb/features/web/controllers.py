@@ -1,9 +1,8 @@
 #!/usr/bin/python
 """ Provides dynamic content using python controller """
-from os.path import basename, join, splitext, dirname
+from os.path import basename, join, splitext, dirname, exists, sep
 from fnmatch import fnmatch
-import imp
-import warnings
+from importlib.machinery import SourceFileLoader
 import cherrypy
 
 from quickweb import controller
@@ -24,6 +23,11 @@ class Feature(object):
         if not fnmatch(basename(content_name), on_file_name):
             return
 
+        # Ignore if there is a matching .html because it's a composed controller
+        html_fn = splitext(content_root + sep + content_name)[0] + ".html"
+        if exists(html_fn):
+            return
+
         if basename(content_name) == "index.py":
             url = "/" + dirname(content_name)
         else:
@@ -32,8 +36,6 @@ class Feature(object):
         url = noext_name
 
         module_fname = join(content_root, content_name)
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            controller_module = imp.load_source(module_fname, module_fname)
+        controller_module = SourceFileLoader(module_fname, module_fname).load_module()
         controller.attach(url, controller_module.Controller())
         cherrypy.engine.autoreload.files.add(module_fname)
