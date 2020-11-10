@@ -101,6 +101,16 @@ validate:
   body: This is a test with really nice magic
 
 ---
+title: Composed template with library
+input:
+  url: /TestCompLib
+validate:
+  headers:
+    - content-type: text/html;charset=utf-8
+  status: 200
+  body: This is a test with Hello
+
+---
 title: Test environ filter
 input:
   url: /TestEnviron

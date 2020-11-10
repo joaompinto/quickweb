@@ -1,5 +1,9 @@
 # ChangeLog
 
+##
+
+* Add functionatl tests for library support
+
 ## v1.7.4
 
 * Set scm_version_options to write the version file
