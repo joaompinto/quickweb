@@ -1,7 +1,11 @@
 # ChangeLog
 
-##
+=======
 
+## v1.8.0
+
+* Added DAEMON_MODE support
+* Added pidfile creation
 * Add functionatl tests for library support
 
 ## v1.7.4
