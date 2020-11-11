@@ -9,6 +9,7 @@ from quickweb import startup
 from quickweb.colorhelper import info
 from cheroot.server import HTTPServer
 from cheroot.ssl.builtin import BuiltinSSLAdapter
+from cherrypy.process.plugins import Daemonizer, PIDFile
 import ssl
 
 
@@ -81,6 +82,10 @@ def run(app_directory, listener_address=None, no_logs=False, running_describe=Fa
     if hasattr(cherrypy.engine, "signals"):
         cherrypy.engine.signals.subscribe()
     cherrypy.engine.subscribe("stop", lambda: os.chdir(startup_cwd))
+    if os.environ.get("DAEMON_MODE"):
+        daemon = Daemonizer(cherrypy.engine, stdout='stdout.log', stderr='stderr.log')
+        daemon.subscribe()
+    PIDFile(cherrypy.engine, 'quickweb.pid').subscribe()
 
     cherrypy.engine.start()
     cherrypy.engine.block()

@@ -1,5 +1,11 @@
 # ChangeLog
 
+
+## v1.8.0
+
+* Added DAEMON_MODE support
+* Added pidfile creation
+
 ## v1.7.4
 
 * Set scm_version_options to write the version file
