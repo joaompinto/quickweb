@@ -1,15 +1,14 @@
 # !/usr/bin/python
-
-from html.parser import HTMLParser
-from os.path import basename, join, exists, dirname
-from quickweb._tempfile import TemporaryDirectory
 import os
 import sys
 import shutil
 import io
 import requests
 import zipfile
-from quickweb.colorhelper import info, print_error
+from tempfile import TemporaryDirectory
+from html.parser import HTMLParser
+from os.path import basename, join, exists, dirname
+from quickweb.cli.colorhelper import info, print_error
 
 TEMPLATES_REPO = "https://github.com/OpenPipe/QuickWeb-templates/archive/master.zip"
 

@@ -1,0 +1,45 @@
+# Project information
+site_name: QuickWeb
+site_description: Rapid Web Application Development
+site_author: João Pinto
+site_url: https://www.openpipe.org/
+docs_dir: docs
+
+# Repository
+repo_name: The Openpipe Tool
+repo_url: https://github.com/joaompinto/wuickweb/
+
+# Repository
+copyright: This site content is licensed under a <A HREF="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</A>
+
+theme:
+    name: material
+    language: en
+    palette:
+        primary: 'blue'
+        accent: 'green'
+
+# Disable edit uri to get a cleaner view
+edit_uri: ''
+
+extra_css:
+    - css/extra.css
+    - https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css
+
+extra_javascript:
+    - js/autoexpand.js
+    - https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js
+    - js/consentinit.js
+
+nav:
+    - Introduction and Installation: index.md
+    - THE BASICS:
+        - Templates: the-basics/templates.md
+        - Controllers: the-basics/controllers.md
+
+
+markdown_extensions:
+    - codehilite:   # This adds the "Copy to clipboard"
+    - admonition:
+    - pymdownx.details:
+    - pymdownx.superfences:

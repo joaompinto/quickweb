@@ -9,18 +9,18 @@ Options:
 """
 import sys
 import yaml
+import colorama
 from docopt import docopt
 from os.path import dirname, realpath, join
 from webtest import TestApp
-from colorama import init
 
-init()
+colorama.init()
 
 # Make sure we use the source directory for imports when running during development
 script_dir = join(dirname(realpath(__file__)), "..")
 sys.path.insert(0, script_dir)
 
-from quickweb.colorhelper import info, print_success, print_error  # noqa: E402
+from quickweb.cli.colorhelper import info, print_success, print_error  # noqa: E402
 
 
 def validate_headers(response, validation_rules):
@@ -82,7 +82,7 @@ def validate(response, validation_rules):
 
 
 def run_test(server_base_url, test_filename):
-    """ Run test case fro mthe test file """
+    """ Run test case fro the test file """
     print("Runing tests at %s using %s" % (info(server_base_url), info(test_filename)))
     app = TestApp(server_base_url)
 

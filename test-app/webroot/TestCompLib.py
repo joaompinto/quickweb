@@ -1,4 +1,4 @@
-from quickweb import controller
+from quickweb.server import controller
 
 
 def render():
